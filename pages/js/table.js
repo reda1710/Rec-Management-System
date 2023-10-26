@@ -57,6 +57,9 @@ fetch('fetch_table.php')
                     <a href="javascript:;" class="nav-item px-2 d-flex align-items-center">
                         <i class="material-icons opacity-10" id="${appliance.appliance_id}">delete</i>
                     </a>
+                    <a href="javascript:;" class="nav-item px-2 d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#consumptionModal">
+                        <i class="material-icons opacity-10" id="${appliance.appliance_id}">manage_search</i>
+                    </a>
                 </div>
             `;
             row.appendChild(td5);
@@ -136,3 +139,375 @@ fetch('fetch_table.php')
         });
     })
     .catch(error => console.error('Error:', error));
+function loadApplianceCharts(applianceId) {
+    window.dailyConsumptionChartInstance = null;
+    // Fetch data for the appliance from a hypothetical endpoint
+    fetch(`fetchApplianceConsumption.php?appliance_id=${applianceId}`)
+        .then(response => response.json())
+        .then(data => {
+            // Render the daily consumption chart using the fetched data
+            var ctxDaily = document.getElementById("dailyConsumptionChart").getContext("2d");
+            // Check if the chart instance exists. If yes, destroy it.
+            if (window.dailyConsumptionChartInstance) {
+                window.dailyConsumptionChartInstance.destroy();
+            }
+
+            window.dailyConsumptionChartInstance = new Chart(ctxDaily, {
+                type: "line",
+                data: {
+                    labels: ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"],
+                    datasets: [{
+                        label: "Daily Consumption",
+                        data: [
+                            data.daily["00:00"], data.daily["01:00"], data.daily["02:00"], data.daily["03:00"], data.daily["04:00"],
+                            data.daily["05:00"], data.daily["06:00"], data.daily["07:00"], data.daily["08:00"], data.daily["09:00"],
+                            data.daily["10:00"], data.daily["11:00"], data.daily["12:00"], data.daily["13:00"], data.daily["14:00"],
+                            data.daily["15:00"], data.daily["16:00"], data.daily["17:00"], data.daily["18:00"], data.daily["19:00"],
+                            data.daily["20:00"], data.daily["21:00"], data.daily["22:00"], data.daily["23:00"]
+                        ],
+                        tension: 0,
+                        pointRadius: 5,
+                        pointBackgroundColor: "rgba(255, 255, 255, .8)",
+                        pointBorderColor: "transparent",
+                        borderColor: "rgba(255, 255, 255, .8)",
+                        borderWidth: 4,
+                        backgroundColor: "transparent",
+                        fill: true,
+                        maxBarThickness: 6,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false,
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index',
+                    },
+                    scales: {
+                        y: {
+                            grid: {
+                                drawBorder: false,
+                                display: true,
+                                drawOnChartArea: true,
+                                drawTicks: false,
+                                borderDash: [5, 5],
+                                color: 'rgba(255, 255, 255, .2)'
+                            },
+                            ticks: {
+                                display: true,
+                                color: '#f8f9fa',
+                                padding: 10,
+                                font: {
+                                    size: 14,
+                                    weight: 300,
+                                    family: "Roboto",
+                                    style: 'normal',
+                                    lineHeight: 2
+                                },
+                            }
+                        },
+                        x: {
+                            grid: {
+                                drawBorder: false,
+                                display: false,
+                                drawOnChartArea: false,
+                                drawTicks: false,
+                                borderDash: [5, 5]
+                            },
+                            ticks: {
+                                display: true,
+                                color: '#f8f9fa',
+                                padding: 10,
+                                font: {
+                                    size: 14,
+                                    weight: 300,
+                                    family: "Roboto",
+                                    style: 'normal',
+                                    lineHeight: 2
+                                },
+                            }
+                        },
+                    },
+                },
+            });
+
+            // Render the weekly consumption chart
+            var ctxweekly = document.getElementById("weeklyConsumptionChart").getContext("2d");
+            // Check if the chart instance exists. If yes, destroy it.
+            if (window.weeklyConsumptionChartInstance) {
+                window.weeklyConsumptionChartInstance.destroy();
+            }
+            window.weeklyConsumptionChartInstance = new Chart(ctxweekly, {
+                type: "line",
+                data: {
+                    labels: data.weekly.labels, // expecting an array of labels (e.g., days of the week)
+                    datasets: [{
+                        label: "weekly Consumption",
+                        data: data.weekly.values, // expecting an array of consumption values
+                        tension: 0,
+                        pointRadius: 5,
+                        pointBackgroundColor: "rgba(255, 255, 255, .8)",
+                        pointBorderColor: "transparent",
+                        borderColor: "rgba(255, 255, 255, .8)",
+                        borderWidth: 4,
+                        backgroundColor: "transparent",
+                        fill: true,
+                        maxBarThickness: 6,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false,
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index',
+                    },
+                    scales: {
+                        y: {
+                            grid: {
+                                drawBorder: false,
+                                display: true,
+                                drawOnChartArea: true,
+                                drawTicks: false,
+                                borderDash: [5, 5],
+                                color: 'rgba(255, 255, 255, .2)'
+                            },
+                            ticks: {
+                                display: true,
+                                color: '#f8f9fa',
+                                padding: 10,
+                                font: {
+                                    size: 14,
+                                    weight: 300,
+                                    family: "Roboto",
+                                    style: 'normal',
+                                    lineHeight: 2
+                                },
+                            }
+                        },
+                        x: {
+                            grid: {
+                                drawBorder: false,
+                                display: false,
+                                drawOnChartArea: false,
+                                drawTicks: false,
+                                borderDash: [5, 5]
+                            },
+                            ticks: {
+                                display: true,
+                                color: '#f8f9fa',
+                                padding: 10,
+                                font: {
+                                    size: 14,
+                                    weight: 300,
+                                    family: "Roboto",
+                                    style: 'normal',
+                                    lineHeight: 2
+                                },
+                            }
+                        },
+                    },
+                },
+            });
+
+            // Render the recommended usage hours chart (if you have this data)
+            var ctxRecommended = document.getElementById("recommendedHoursChart").getContext("2d");
+            // Check if the chart instance exists. If yes, destroy it.
+            if (window.RecommendedhoursChartInstance) {
+                window.RecommendedhoursChartInstance.destroy();
+            }
+            window.RecommendedhoursChartInstance = new Chart(ctxRecommended, {
+                type: "bar", // or "line" based on your preference
+                data: {
+                    labels: data.recommended.labels, // expecting an array of labels (e.g., recommended hours)
+                    datasets: [{
+                        label: "Recommended usage",
+                        data: data.recommended.values, // expecting an array of values (e.g., efficiency or cost savings)
+                        tension: 0,
+                        borderWidth: 0,
+                        pointRadius: 5,
+                        pointBackgroundColor: "rgba(255, 255, 255, .8)",
+                        pointBorderColor: "transparent",
+                        borderColor: "rgba(255, 255, 255, .8)",
+                        borderWidth: 4,
+                        backgroundColor: "transparent",
+                        fill: true,
+                        maxBarThickness: 6,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false,
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index',
+                    },
+                    scales: {
+                        y: {
+                            grid: {
+                                drawBorder: false,
+                                display: true,
+                                drawOnChartArea: true,
+                                drawTicks: false,
+                                borderDash: [5, 5],
+                                color: 'rgba(255, 255, 255, .2)'
+                            },
+                            ticks: {
+                                display: true,
+                                padding: 10,
+                                color: '#f8f9fa',
+                                font: {
+                                    size: 14,
+                                    weight: 300,
+                                    family: "Roboto",
+                                    style: 'normal',
+                                    lineHeight: 2
+                                },
+                            }
+                        },
+                        x: {
+                            grid: {
+                                drawBorder: false,
+                                display: false,
+                                drawOnChartArea: false,
+                                drawTicks: false,
+                                borderDash: [5, 5]
+                            },
+                            ticks: {
+                                display: true,
+                                color: '#f8f9fa',
+                                padding: 10,
+                                font: {
+                                    size: 14,
+                                    weight: 300,
+                                    family: "Roboto",
+                                    style: 'normal',
+                                    lineHeight: 2
+                                },
+                            }
+                        },
+                    },
+                },
+            });
+
+        })
+        .catch(error => {
+            console.error("Error fetching appliance data:", error);
+        });
+}
+
+function loadUserPreferences(applianceId) {
+    $.ajax({
+        url: 'getUserPrefs.php',
+        type: 'GET',
+        data: {
+            appliance_id: applianceId
+        },
+        dataType: 'json',
+        success: function(response) {
+            if (response.start_time && response.end_time) {
+                $('#startTimeInput').val(response.start_time);
+                $('#endTimeInput').val(response.end_time);
+            } else {
+                alert('Error fetching user preferences: ' + response.error);
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            alert('An unexpected error occurred. Please try again.');
+        }
+    });
+}
+
+
+// Event listener for when the modal is shown
+document.getElementById('consumptionModal').addEventListener('show.bs.modal', function (event) {
+    // Button that triggered the modal
+    const button = event.relatedTarget;
+    // Extract appliance ID from the button's ID attribute
+    const applianceId = button.querySelector('i.material-icons').id;
+    // Set the applianceId to the modal's data attribute
+    $(this).data('appliance-id', applianceId);
+    //Implement your chart data fetching and rendering logic here
+    loadApplianceCharts(applianceId);
+    loadUserPreferences(applianceId);
+});
+
+document.getElementById('consumptionModal').addEventListener('hidden.bs.modal', function () {
+    // This will be executed every time the modal is hidden
+    // Clear any previously fetched data or reset any UI elements if necessary
+    if (window.dailyConsumptionChartInstance) {
+        window.dailyConsumptionChartInstance.destroy();
+    }
+    var ctxDaily = document.getElementById("dailyConsumptionChart").getContext("2d");
+    ctxDaily.clearRect(0, 0, ctxDaily.canvas.width, ctxDaily.canvas.height);
+
+    if (window.weeklyConsumptionChartInstance) {
+        window.weeklyConsumptionChartInstance.destroy();
+    }
+    var ctxweekly = document.getElementById("weeklyConsumptionChart").getContext("2d");
+    ctxweekly.clearRect(0, 0, ctxweekly.canvas.width, ctxweekly.canvas.height);
+
+    if (window.RecommendedhoursChartInstance) {
+        window.RecommendedhoursChartInstance.destroy();
+    }
+    var ctxRecommended = document.getElementById("recommendedHoursChart").getContext("2d");
+    ctxRecommended.clearRect(0, 0, ctxRecommended.canvas.width, ctxRecommended.canvas.height);
+});
+$(document).ready(function() {
+    // Event listener for "Save Changes" button click
+    $('#consumptionModal .btn-primary').click(function() {
+        // Extract selected times and appliance ID
+        const startTime = $('#startTimeInput').val();
+        const endTime = $('#endTimeInput').val();
+        const applianceId = $('#consumptionModal').data('appliance-id'); // We will set this data attribute when opening the modal
+
+        // Validate that start time is before end time
+        if (startTime >= endTime) {
+            alert('End time should be after start time.');
+            return; // Stop further execution
+        }
+
+        // Make AJAX request to save user preferences
+        $.ajax({
+            url: 'saveUserPrefs.php',
+            type: 'POST',
+            data: {
+                appliance_id: applianceId,
+                start_time: startTime,
+                end_time: endTime
+            },
+            dataType: 'json',
+            success: function(response) {
+                // Handle response
+                if (response.success) {
+                    alert('Preferences saved successfully!');
+                } else {
+                    console.error("Error saving user preferences:", response.error);
+                    alert('Error saving preferences: ' + response.error);
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                // Handle AJAX error
+                console.error("AJAX error:", textStatus, errorThrown);
+                alert('An unexpected error occurred. Please try again.');
+            }
+        });
+    });
+});
+
+

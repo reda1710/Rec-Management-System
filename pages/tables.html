@@ -39,6 +39,17 @@
   <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
   <script src="js/fetch_data.js"></script>
   <script src="logout.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <!-- pickadate Classic Theme CSS files -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/pickadate.js/3.6.4/themes/classic.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/pickadate.js/3.6.4/themes/classic.time.css" rel="stylesheet">
+
+
+  <!-- pickadate JS files -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pickadate.js/3.6.4/picker.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pickadate.js/3.6.4/picker.time.js"></script>
+
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
@@ -151,78 +162,12 @@
                 <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
               </a>
             </li>
-            <li class="nav-item dropdown px-2 d-flex align-items-center">
-              <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fa fa-bell cursor-pointer"></i>
-              </a>
-              <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
-                <li class="mb-2">
-                  <a class="dropdown-item border-radius-md" href="javascript:;">
-                    <div class="d-flex py-1">
-                      <div class="my-auto">
-                        <img src="../assets/img/team-2.jpg" class="avatar avatar-sm  me-3 " alt="">
-                      </div>
-                      <div class="d-flex flex-column justify-content-center">
-                        <h6 class="text-sm font-weight-normal mb-1">
-                          <span class="font-weight-bold">New message</span> from Laura
-                        </h6>
-                        <p class="text-xs text-secondary mb-0">
-                          <i class="fa fa-clock me-1"></i>
-                          13 minutes ago
-                        </p>
-                      </div>
-                    </div>
-                  </a>
-
-                  <a class="dropdown-item border-radius-md" href="javascript:;">
-                    <div class="d-flex py-1">
-                      <div class="my-auto">
-                        <img src="../assets/img/small-logos/logo-spotify.svg"
-                             class="avatar avatar-sm bg-gradient-dark  me-3 ">
-                      </div>
-                      <div class="d-flex flex-column justify-content-center">
-                        <h6 class="text-sm font-weight-normal mb-1">
-                          <span class="font-weight-bold">New album</span> by Travis Scott
-                        </h6>
-                        <p class="text-xs text-secondary mb-0">
-                          <i class="fa fa-clock me-1"></i>
-                          1 day
-                        </p>
-                      </div>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item border-radius-md" href="javascript:;">
-                    <div class="d-flex py-1">
-                      <div class="avatar avatar-sm bg-gradient-secondary  me-3  my-auto">
-                        <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                          <title>credit-card</title>
-                          <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                            <g transform="translate(-2169.000000, -745.000000)" fill="#FFFFFF" fill-rule="nonzero">
-                              <g transform="translate(1716.000000, 291.000000)">
-                                <g transform="translate(453.000000, 454.000000)">
-                                  <path class="color-background" d="M43,10.7482083 L43,3.58333333 C43,1.60354167 41.3964583,0 39.4166667,0 L3.58333333,0 C1.60354167,0 0,1.60354167 0,3.58333333 L0,10.7482083 L43,10.7482083 Z" opacity="0.593633743"></path>
-                                  <path class="color-background" d="M0,16.125 L0,32.25 C0,34.2297917 1.60354167,35.8333333 3.58333333,35.8333333 L39.4166667,35.8333333 C41.3964583,35.8333333 43,34.2297917 43,32.25 L43,16.125 L0,16.125 Z M19.7083333,26.875 L7.16666667,26.875 L7.16666667,23.2916667 L19.7083333,23.2916667 L19.7083333,26.875 Z M35.8333333,26.875 L28.6666667,26.875 L28.6666667,23.2916667 L35.8333333,23.2916667 L35.8333333,26.875 Z"></path>
-                                </g>
-                              </g>
-                            </g>
-                          </g>
-                        </svg>
-                      </div>
-                      <div class="d-flex flex-column justify-content-center">
-                        <h6 class="text-sm font-weight-normal mb-1">
-                          Payment successfully completed
-                        </h6>
-                        <p class="text-xs text-secondary mb-0">
-                          <i class="fa fa-clock me-1"></i>
-                          2 days
-                        </p>
-                      </div>
-                    </div>
-                  </a>
-                </li>
-              </ul>
+            <li class="nav-item px-2 d-flex align-items-center">
+              <div class="nav-link text-body font-weight-bold px-0">
+                <a href="../pages/notifications.html">
+                  <i class="fa fa-bell cursor-pointer"></i>
+                </a>
+              </div>
             </li>
             <li class="nav-item px-2 d-flex align-items-center">
               <div id="signIn_Element1" class="nav-link text-body font-weight-bold px-0">
@@ -278,6 +223,8 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="position-fixed bottom-1 end-1 z-index-2">
       </div>
       <footer class="footer py-4  ">
         <div class="container-fluid">
@@ -379,8 +326,9 @@
   <script src="../assets/js/core/bootstrap.min.js"></script>
   <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
   <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+  <script src="../assets/js/plugins/chartjs.min.js"></script>
   <script src="js/theme.js"></script>
-  <script src="js/table.js"></script>
+  <script src="js/notifications.js"></script>
 
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
@@ -406,25 +354,168 @@
         </div>
         <div class="modal-body">
           <form id="applianceForm">
-            <div class="mb-3">
-              <label for="appliance-name" class="text-xs font-weight-bold mb-0" style="color: #404040">Appliance Name</label>
-              <input type="text" class="form-control" id="appliance-name" required>
-            </div>
-            <div class="mb-3">
-              <label for="appliance-type" class="text-xs font-weight-bold mb-0" style="color: #404040" >Room</label>
-              <input type="text" class="form-control" id="appliance-type" required>
-            </div>
-            <div class="mb-3">
-              <label for="appliance-wattage" class="text-xs font-weight-bold mb-0" style="color: #404040">Wattage</label>
-              <input type="number" class="form-control" id="appliance-wattage" required>
+            <div class="card">
+              <div class="card-body">
+                <div class="mb-3">
+                  <label for="appliance-name" class="text-xs font-weight-bold mb-0" style="color: #404040">Appliance Name</label>
+                  <input type="text" class="form-control" id="appliance-name" required>
+                </div>
+                <hr class="dark horizontal">
+                <div class="mb-3">
+                  <label for="appliance-type" class="text-xs font-weight-bold mb-0" style="color: #404040" >Room</label>
+                  <input type="text" class="form-control" id="appliance-type" required>
+                </div>
+                <hr class="dark horizontal">
+                <div class="mb-3">
+                  <label for="appliance-wattage" class="text-xs font-weight-bold mb-0" style="color: #404040">Wattage</label>
+                  <input type="number" class="form-control" id="appliance-wattage" required>
+                </div>
+              </div>
             </div>
             <!-- You can add more input fields here as per your needs -->
-            <button type="submit" class="btn btn-primary">Add Appliance</button>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Add Appliance</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
           </form>
         </div>
       </div>
     </div>
   </div>
+  <!-- Modal -->
+  <div class="modal fade" id="consumptionModal" tabindex="-1" aria-labelledby="consumptionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="consumptionModalLabel">Appliance Consumption Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row mt-4">
+            <!-- User input for preferred usage hours -->
+            <div class="col-md-6 mb-3">
+              <div class="card">
+                <div class="card-body">
+                  <h6 class="mb-0">Preferred Usage Hours</h6>
+                  <hr class="dark horizontal">
+                  <label for="startTimeInput" class="form-label">Start Time:</label>
+                  <input type="text" class="form-control timepicker mb-2" id="startTimeInput" placeholder="Select Start Time">
+
+                  <label for="endTimeInput" class="form-label">End Time:</label>
+                  <input type="text" class="form-control timepicker" id="endTimeInput" placeholder="Select End Time">
+                </div>
+              </div>
+            </div>
+
+            <!-- Consumption for the current day -->
+            <div class="col-md-6 mb-3">
+              <div class="card z-index-2 ">
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
+                  <div class="bg-gradient-dark shadow-dark border-radius-lg py-3 pe-1">
+                    <div class="chart">
+                      <canvas id="dailyConsumptionChart" class="chart-canvas" height="170"></canvas>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <h6 class="mb-0">Daily Consumption</h6>
+                  <p class="text-sm ">€ / MWh</p>
+                  <hr class="dark horizontal">
+                  <div class="d-flex ">
+                    <i class="material-icons text-sm my-auto me-1">schedule</i>
+                    <p class="mb-0 text-sm"> updated hourly </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Prices for the day after -->
+<!--            <div class="col-md-6 mb-3">-->
+<!--              <div class="card z-index-2 ">-->
+<!--                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">-->
+<!--                  <div class="bg-gradient-dark shadow-dark border-radius-lg py-3 pe-1">-->
+<!--                    <div class="chart">-->
+<!--                      <canvas id="dayAfterChart" class="chart-canvas" height="170"></canvas>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--                <div class="card-body">-->
+<!--                  <h6 class="mb-0">Tomorrow's Prices</h6>-->
+<!--                  <p class="text-sm ">€ / MWh</p>-->
+<!--                  <hr class="dark horizontal">-->
+<!--                  <div class="d-flex ">-->
+<!--                    <i class="material-icons text-sm my-auto me-1">schedule</i>-->
+<!--                    <p class="mb-0 text-sm"> updated daily </p>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+          </div>
+
+          <div class="row mt-4">
+            <!-- Consumption for the current week -->
+            <div class="col-md-6 mb-3">
+              <div class="card z-index-2 ">
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
+                  <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
+                    <div class="chart">
+                      <canvas id="weeklyConsumptionChart" class="chart-canvas" height="170"></canvas>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <h6 class="mb-0">Weekly Consumption</h6>
+                  <p class="text-sm ">€ / MWh</p>
+                  <hr class="dark horizontal">
+                  <div class="d-flex ">
+                    <i class="material-icons text-sm my-auto me-1">schedule</i>
+                    <p class="mb-0 text-sm"> updated daily </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recommended usage hours -->
+            <div class="col-md-6 mb-3">
+              <div class="card z-index-2 ">
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
+                  <div class="bg-gradient-success shadow-success border-radius-lg py-3 pe-1">
+                    <div class="chart">
+                      <canvas id="recommendedHoursChart" class="chart-canvas" height="170"></canvas>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <h6 class="mb-0">Recommended Usage</h6>
+                  <p class="text-sm ">€ / MWh</p>
+                  <hr class="dark horizontal">
+                  <div class="d-flex ">
+                    <i class="material-icons text-sm my-auto me-1">schedule</i>
+                    <p class="mb-0 text-sm"> updated daily </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $('.timepicker').pickatime({
+      format: 'HH:i',
+      interval: 15
+    });
+  </script>
+
+
   <script>
     document.getElementById('applianceForm').addEventListener('submit', function(event) {
       event.preventDefault();
@@ -457,6 +548,8 @@
               });
     });
   </script>
+  <script src="js/table.js"></script>
+
 </body>
 
 </html>
