@@ -1,9 +1,101 @@
-// Sample data received from PHP
-var notificationsData = [
-];
+// Function to create and display toast notification
+function createToastNotification(id, message, alertType, timer) {
+    const toastContainer = document.querySelector('.position-fixed');
+
+    const toastDiv = document.createElement("div");
+    toastDiv.className = `toast fade bg-white p-2 shown mt-2`;
+    toastDiv.setAttribute("role", "alert");
+    toastDiv.setAttribute("aria-live", "assertive");
+    toastDiv.setAttribute("aria-atomic", "true");
+    toastDiv.setAttribute('data-notification-id', id);
+
+    const toastHeader = document.createElement("div");
+    toastHeader.className = `toast-header bg-transparent border-0`;
+
+    const icon = document.createElement("i");
+
+    const toastTitle = document.createElement("span");
+                toastTitle.textContent = "Notification";
+
+
+    switch(alertType) {
+        case "success":
+            icon.className = "material-icons text-success me-2";
+            icon.textContent = "check";
+            toastTitle.className = "me-auto text-gradient text-success font-weight-bold";
+            break;
+        case "info":
+            icon.className = "material-icons text-info me-2";
+            icon.textContent = "notifications";
+            toastTitle.className = "me-auto text-gradient text-info font-weight-bold";
+            break;
+        case "warning":
+            icon.className = "material-icons text-warning me-2";
+            icon.textContent = "travel_explore";
+            toastTitle.className = "me-auto text-gradient text-warning font-weight-bold";
+            break;
+        case "danger":
+            icon.className = "material-icons text-danger me-2";
+            icon.textContent = "campaign";
+            toastTitle.className = "me-auto text-gradient text-danger font-weight-bold";
+            break;
+        default:
+            icon.className = "material-icons text-body me-2";
+            icon.textContent = "notifications";
+            toastTitle.className = "me-auto text-body font-weight-bold";
+            break;
+    }
+
+    const Ticon = document.createElement("i");
+    const toastTime = document.createElement("small");
+    Ticon.className = "material-icons text-body me-2";
+    Ticon.textContent = "schedule";
+    toastTime.className = "text-body";
+    toastTime.textContent = timer;
+
+    const closeButton = document.createElement("i");
+    closeButton.className = "fas fa-times text-md text-white ms-3 cursor-pointer";
+    closeButton.setAttribute("data-bs-dismiss", "toast");
+    closeButton.setAttribute("aria-label", "Close");
+    closeButton.setAttribute("data-notification-id", id);
+
+    closeButton.addEventListener("click", function () {
+        var notificationId = this.getAttribute("data-notification-id");
+        markNotificationAsRead(notificationId);
+        this.parentNode.remove();
+    });
+
+    toastHeader.appendChild(icon);
+    toastHeader.appendChild(toastTitle);
+    toastHeader.appendChild(Ticon);
+    toastHeader.appendChild(toastTime);
+    toastHeader.appendChild(closeButton);
+    toastDiv.appendChild(toastHeader);
+
+    const horizontalLine = document.createElement("hr");
+    horizontalLine.className = "horizontal light m-0";
+    toastDiv.appendChild(horizontalLine);
+
+    const toastBody = document.createElement("div");
+    toastBody.className = "toast-body";
+    toastBody.textContent = message;
+    toastDiv.appendChild(toastBody);
+
+    toastContainer.appendChild(toastDiv);
+
+    const toastInstance = new bootstrap.Toast(toastDiv);
+    toastInstance.show();
+}
+
+
+
 
 // Function to create and append notification HTML
 function createNotification(id, message, alertType) {
+
+    // Check if the notificationContainer exists
+    var container = document.getElementById("notificationContainer");
+    if (!container) return; // If it doesn't exist, do nothing and exit the function
 
     // Create the main notification div
     var notificationDiv = document.createElement("div");
@@ -14,12 +106,6 @@ function createNotification(id, message, alertType) {
     var messageSpan = document.createElement("span");
     messageSpan.className = "text-sm";
     messageSpan.textContent = message;
-
-    // Create the example link
-    // var link = document.createElement("a");
-    // link.href = "javascript:;";
-    // link.className = "alert-link text-white";
-    // link.textContent = "an example link"; // put link here
 
     // Create the close button
     var closeButton = document.createElement("button");
@@ -42,24 +128,13 @@ function createNotification(id, message, alertType) {
         this.parentNode.remove(); // Remove the notification from the UI
     });
 
-    // Append the link and message content to the main notification div
-    // messageSpan.appendChild(document.createTextNode("A simple primary alert with "));
-    // messageSpan.appendChild(link);
-    // messageSpan.appendChild(document.createTextNode(". Give it a click if you like."));
-
     notificationDiv.appendChild(messageSpan);
     notificationDiv.appendChild(closeButton);
 
     // Append the notification to the container
-    document.getElementById("notificationContainer").appendChild(notificationDiv);
+    container.appendChild(notificationDiv);
 }
 
-
-// Loop through the data and create notifications
-for (var i = 0; i < notificationsData.length; i++) {
-    var notification = notificationsData[i];
-    createNotification(notification.id, notification.message, notification.alert);
-}
 
 function markNotificationAsRead(notificationId) {
     // Send an AJAX request to a PHP script to update the database
@@ -84,6 +159,34 @@ function markNotificationAsRead(notificationId) {
 
     xhr.send(data);
 }
+function timeSince(date) {
+    const now = new Date();
+    const notificationDate = new Date(date);
+    const seconds = Math.floor((now - notificationDate) / 1000);
+
+    let interval = Math.floor(seconds / 31536000); // seconds in a year
+
+    if (interval > 1) {
+        return interval + " years ago";
+    }
+    interval = Math.floor(seconds / 2592000); // seconds in a month
+    if (interval > 1) {
+        return interval + " months ago";
+    }
+    interval = Math.floor(seconds / 86400); // seconds in a day
+    if (interval > 1) {
+        return interval + " days ago";
+    }
+    interval = Math.floor(seconds / 3600); // seconds in an hour
+    if (interval > 1) {
+        return interval + " hours ago";
+    }
+    interval = Math.floor(seconds / 60); // seconds in a minute
+    if (interval > 1) {
+        return interval + " minutes ago";
+    }
+    return Math.floor(seconds) + " seconds ago";
+}
 // Function to fetch unread notifications from the server
 function fetchNotifications() {
     fetch('notifications.php') // Replace with the correct path to your PHP script
@@ -100,7 +203,9 @@ function fetchNotifications() {
                 // primary,secondary,success,danger,warning,info,light,dark
                 // Loop through the notifications and display them
                 data.forEach(notification => {
+                    timer = timeSince(notification.created_at);
                     createNotification(notification.id, notification.message, notification.alertType)
+                    createToastNotification(notification.id, notification.message, notification.alertType, timer);
 
                 });
             }

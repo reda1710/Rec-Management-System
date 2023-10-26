@@ -6004,6 +6004,7 @@ fieldset:disabled .btn {
   color: var(--bs-list-group-color);
   background-color: var(--bs-list-group-bg);
   border: var(--bs-list-group-border-width) solid var(--bs-list-group-border-color);
+  margin: 20px;
 }
 
 .list-group-item:first-child {
